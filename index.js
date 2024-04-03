@@ -11,21 +11,7 @@ connectMongoDb('mongodb://127.0.0.1:27017/myapp-2').then(() => console.log("Mong
 //adding url encodeing with middleware
 app.use(express.urlencoded({ extended: false }));
 
-
-app.use("/url", urlRouter)
-
-app.get("/:shortid", async (req, res) => {
-    const shortid = req.params.shortid;
-    console.log("shortid:",shortid)
-
-    const entry = await urlData?.findOneAndUpdate({ shortid }, {
-        $push: {
-            visitHistory: { timestamps: Date.now(), }
-        },
-    });
-    console.log("entry:",entry)
-    res.redirect(entry.redirectURL);
-})
+app.use("/url",urlRouter)
 
 app.listen(PORT, () => {
     console.log(`Server started: ${PORT}`);
